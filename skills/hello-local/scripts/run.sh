@@ -1,22 +1,16 @@
 #!/usr/bin/env bash
-# local port source
+# local port source (auto-domain tunnel)
 set -euo pipefail
 
 MODE=""
 TOKEN="${HELLO_LOCAL_TOKEN:-}"
 ENDPOINT_OVERRIDE=""
-PORT=""
-DOMAIN_NAME="hello-local"
-AUTO_DOMAIN_TOKEN="${AUTO_DOMAIN_TOKEN:-atd-76631b52126234666e0a12c6f45ac6d8}"
 
 for arg in "$@"; do
   case "$arg" in
     --mode=*) MODE="${arg#--mode=}" ;;
     --token=*) TOKEN="${arg#--token=}" ;;
     --endpoint=*) ENDPOINT_OVERRIDE="${arg#--endpoint=}" ;;
-    --port=*) PORT="${arg#--port=}" ;;
-    --domain-name=*) DOMAIN_NAME="${arg#--domain-name=}" ;;
-    --auto-domain-token=*) AUTO_DOMAIN_TOKEN="${arg#--auto-domain-token=}" ;;
     -h|--help)
       echo "Usage: $0 --mode=<mode> [--token=TOKEN] [--endpoint=URL]"
       exit 0
@@ -29,30 +23,10 @@ if [[ -z "$MODE" ]]; then
   exit 1
 fi
 
-if [[ -z "$PORT" ]]; then
-  echo "Provide --port=PORT (local service port to expose via auto-domain)" >&2
-  exit 1
-fi
-
-_AUTODOMAIN_TMP=$(mktemp)
-curl -fsSL https://skill.vyibc.com/auto-domain.sh -o "$_AUTODOMAIN_TMP"
-_AUTODOMAIN_ARGS=(--port="$PORT" --name="$DOMAIN_NAME" --daemon)
-if [[ -n "$AUTO_DOMAIN_TOKEN" ]]; then
-  _AUTODOMAIN_ARGS+=(--token="$AUTO_DOMAIN_TOKEN")
-fi
-AUTO_DOMAIN_OUTPUT="$(bash "$_AUTODOMAIN_TMP" "${_AUTODOMAIN_ARGS[@]}")"
-rm -f "$_AUTODOMAIN_TMP"
-echo "$AUTO_DOMAIN_OUTPUT"
-BASE_URL="$(printf '%s\n' "$AUTO_DOMAIN_OUTPUT" | sed -n 's/.*Public URL : //p' | tail -1)"
-if [[ -z "$BASE_URL" ]]; then
-  echo "Failed to allocate public URL through auto-domain" >&2
-  exit 1
-fi
-
 TOKEN="${TOKEN#Bearer }"
 TOKEN="${TOKEN#bearer }"
 
-ENDPOINT="${BASE_URL}/"
+ENDPOINT=https://hello-local.chxyka.ccwu.cc/
 if [[ -n "$ENDPOINT_OVERRIDE" ]]; then
   ENDPOINT="$ENDPOINT_OVERRIDE"
 fi

@@ -1,6 +1,6 @@
 # hello-local
 
-将本地 HTTP 服务通过 auto-domain 暴露为公网能力，返回 Hello from Cloudflare Worker! 🚀。
+调用本地 hello 服务（通过 auto-domain 隧道暴露到公网）
 
 ---
 
@@ -9,7 +9,7 @@
 不需要安装 skill，一条命令直接调用：
 
 ```bash
-bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local
+bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) 
 ```
 
 ---
@@ -31,7 +31,7 @@ bash <(curl -fsSL 'https://skill.vyibc.com/install-hello-local.sh')
 
 - `hello-local`
 - `调用 hello-local`
-- `使用 hello-local`
+- `hello local 服务`
 
 ---
 
@@ -39,26 +39,34 @@ bash <(curl -fsSL 'https://skill.vyibc.com/install-hello-local.sh')
 
 | 模式 | 说明 |
 |------|------|
-| `hello` | 调用本地服务，返回问候语。 |
+| `hello` | 调用 hello 接口 |
 
 ---
 
 ## 本地服务说明
 
-本项目通过 auto-domain 将本地 HTTP 服务暴露为公网能力。调用时必须提供：
+本 skill 通过 auto-domain 隧道调用本地服务，公网地址固定为：
 
-- `--port=PORT` 本地服务监听的端口
-- `--domain-name=NAME` 分配的公网子域名（如 `myapp` → `myapp.chxyka.ccwu.cc`）
-- `--auto-domain-token=TOKEN` auto-domain 认证 token
+```
+https://hello-local.chxyka.ccwu.cc
+```
+
+调用前请先在本地启动服务，并运行 auto-domain 将端口打洞到公网：
+
+```bash
+bash <(curl -fsSL https://skill.vyibc.com/auto-domain.sh) --port=PORT --name=hello-local --daemon
+```
+
+Skill 本身不需要任何 `--port` 或 `--domain-name` 参数，直接 `--mode=...` 调用即可。
 
 ---
 
 ## 4. 调用示例
 
-### 通过 auto-domain 暴露并调用
+### 调用 hello
 
 ```bash
-bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local
+bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello
 ```
 
 ---

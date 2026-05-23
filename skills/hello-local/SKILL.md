@@ -1,18 +1,18 @@
 ---
 name: hello-local
-description: "当用户说"hello-local"、"调用 hello-local"、"使用 hello-local" 时自动触发。将本地 HTTP 服务通过 auto-domain 暴露为公网能力，返回 Hello from Cloudflare Worker! 🚀。"
+description: "当用户说"hello-local"、"调用 hello-local"、"hello local 服务" 时自动触发。调用本地 hello 服务（通过 auto-domain 隧道暴露到公网）"
 ---
 
 # Hello Local
 
 ## 作用
 
-将本地 HTTP 服务通过 auto-domain 暴露为公网能力，返回 Hello from Cloudflare Worker! 🚀。
+调用本地 hello 服务（通过 auto-domain 隧道暴露到公网）
 
 ## 执行
 
 ```bash
-~/.claude/skills/hello-local/scripts/run.sh --mode=hello --port=18091 --domain-name=hello-local --auto-domain-token=atd-76631b52126234666e0a12c6f45ac6d8
+~/.claude/skills/hello-local/scripts/run.sh 
 ```
 
 ## 直接执行
