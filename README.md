@@ -9,7 +9,7 @@
 不需要安装 skill，一条命令直接调用：
 
 ```bash
-bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local --auto-domain-token=atd-76631b52126234666e0a12c6f45ac6d8
+bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local
 ```
 
 ---
@@ -58,7 +58,7 @@ bash <(curl -fsSL 'https://skill.vyibc.com/install-hello-local.sh')
 ### 通过 auto-domain 暴露并调用
 
 ```bash
-bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local --auto-domain-token=atd-76631b52126234666e0a12c6f45ac6d8
+bash <(curl -fsSL https://skill.vyibc.com/hello-local.sh) --mode=hello --port=18091 --domain-name=hello-local
 ```
 
 ---
